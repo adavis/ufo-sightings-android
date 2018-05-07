@@ -1,0 +1,8 @@
+query SightingsQuery($size: Int) {
+  sightings(size: $size) {
+    id
+    date
+    shape
+    comments
+  }
+}
