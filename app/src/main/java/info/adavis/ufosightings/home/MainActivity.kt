@@ -65,6 +65,21 @@ class MainActivity : AppCompatActivity(), MainView {
             val sighting = values[position]
             holder.comment_text.text = sighting.comments()
             holder.date_text.text = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(sighting.date())
+
+            val imageResId = when(sighting.shape()) {
+                "circle", "oval" -> R.drawable.ufo_circle_oval
+
+                "disk" -> R.drawable.ufo_disk
+
+                "light" -> R.drawable.ufo_light
+
+                "sphere" -> R.drawable.ufo_sphere
+
+                "triangle" -> R.drawable.ufo_triangle
+
+                else -> 0
+            }
+            holder.icon_image.setImageResource(imageResId)
         }
 
         override fun getItemCount(): Int = values.size

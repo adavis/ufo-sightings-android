@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">UFO Sightings</string>
     <string name="ufo_sightings_title">UFO Sightings</string>
+    <string name="sighting_type">Sighting Type Icon</string>
 </resources>
