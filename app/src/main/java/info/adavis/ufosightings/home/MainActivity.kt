@@ -1,5 +1,6 @@
 package info.adavis.ufosightings.home
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.widget.toast
 import info.adavis.ufosightings.R
 import info.adavis.ufosightings.SightingsQuery
+import info.adavis.ufosightings.util.obtainViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.sighting_list_item.*
@@ -17,10 +19,10 @@ import java.util.Locale
 
 private const val DATE_FORMAT = "yyyy-MM-dd"
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity() {
 
-    private val presenter: MainPresenter by lazy { MainPresenter(this) }
     private var adapter: SightingsAdapter? = null
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,29 +30,32 @@ class MainActivity : AppCompatActivity(), MainView {
 
         adapter = SightingsAdapter(emptyList())
         sightings_list.adapter = adapter
-    }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.getTopSightings()
-    }
+        viewModel = obtainViewModel().also {
+            it.getSightings().observe(this, Observer { sightingsState ->
+                sightingsState?.let {
+                    it.data?.let { data -> displaySightings(data) }
+                }
+            })
 
-    override fun onPause() {
-        super.onPause()
-        presenter.detachView()
-    }
-
-    override fun displaySightings(sightings: List<SightingsQuery.Sighting>) {
-        runOnUiThread {
-            adapter?.values = sightings
-            adapter?.notifyDataSetChanged()
+            it.getErrorMessage().observe(this, Observer {
+                displayError(it)
+            })
         }
     }
 
-    override fun displayError(message: String?) {
-        message?.let { runOnUiThread { toast(it) } }
+    private fun displaySightings(sightings: List<SightingsQuery.Sighting>) {
+        adapter?.let {
+            it.values = sightings
+            it.notifyDataSetChanged()
+        }
     }
 
+    private fun displayError(message: String?) {
+        message?.let { toast(it) }
+    }
+
+    // region adapter
     inner class SightingsAdapter constructor(
             var values: List<SightingsQuery.Sighting>
     ) : RecyclerView.Adapter<SightingsAdapter.ViewHolder>() {
@@ -88,4 +93,7 @@ class MainActivity : AppCompatActivity(), MainView {
         inner class ViewHolder(override val containerView: View?)
             : RecyclerView.ViewHolder(containerView), LayoutContainer
     }
+    //endregion
+
+    fun obtainViewModel(): MainViewModel = obtainViewModel(MainViewModel::class.java)
 }
