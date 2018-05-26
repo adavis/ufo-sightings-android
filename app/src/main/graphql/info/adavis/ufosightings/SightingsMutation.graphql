@@ -1,0 +1,5 @@
+mutation CreateSighting($newSighting: CreateUFOSightingInput!) {
+  createUFOSighting(input: $newSighting) {
+    id
+  }
+}

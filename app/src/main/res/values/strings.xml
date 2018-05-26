@@ -2,4 +2,18 @@
     <string name="app_name">UFO Sightings</string>
     <string name="ufo_sightings_title">UFO Sightings</string>
     <string name="sighting_type">Sighting Type Icon</string>
+    <string name="add_ufo_sighting_title">Add Sighting</string>
+    <string name="city_label">City</string>
+    <string name="state_label">State</string>
+    <string name="country_label">Country</string>
+    <string name="comments_label">Comments</string>
+    <string-array name="shapes_array">
+        <item name="circle">Circle</item>
+        <item name="oval">Oval</item>
+        <item name="disk">Disk</item>
+        <item name="light">Light</item>
+        <item name="sphere">Sphere</item>
+        <item name="triangle">Triangle</item>
+        <item name="unknown">Unknown</item>
+    </string-array>
 </resources>

@@ -1,0 +1,7 @@
+query SightingIntrospection {
+  __type(name: "UFOSighting") {
+    fields {
+      name
+    }
+  }
+}

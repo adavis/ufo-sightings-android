@@ -923,13 +923,9 @@
               "name": "date",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "LocalDate",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "LocalDate",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -937,13 +933,9 @@
               "name": "duration",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -951,13 +943,9 @@
               "name": "latitude",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -965,13 +953,9 @@
               "name": "longitude",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -1200,8 +1184,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
+                  "kind": "OBJECT",
+                  "name": "UFOSighting",
                   "ofType": null
                 }
               },
@@ -1221,7 +1205,7 @@
           "fields": [
             {
               "name": "sightings",
-              "description": null,
+              "description": "Returns a subset of the UFO Sighting records",
               "args": [
                 {
                   "name": "size",
@@ -1256,7 +1240,7 @@
             },
             {
               "name": "sighting",
-              "description": null,
+              "description": "Returns a single UFO Sighting record based on the id",
               "args": [
                 {
                   "name": "id",
@@ -1288,6 +1272,30 @@
             {
               "name": "topSightings",
               "description": "Returns a list of the top 10 state,country based on the number of sightings",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "CountrySightings",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "topCountrySightings",
+              "description": "Returns a list of the top 10 countries based on the number of sightings",
               "args": [],
               "type": {
                 "kind": "NON_NULL",

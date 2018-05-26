@@ -45,7 +45,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
     implementation "com.apollographql.apollo:apollo-runtime:$apollo_version"
-    implementation "com.apollographql.apollo:apollo-rx2-support:$apollo_version"
 
     implementation 'androidx.core:core-ktx:0.3'
 

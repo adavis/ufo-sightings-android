@@ -1,6 +1,7 @@
 package info.adavis.ufosightings.home
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.widget.toast
 import info.adavis.ufosightings.R
 import info.adavis.ufosightings.SightingsQuery
+import info.adavis.ufosightings.addsighting.AddSightingActivity
 import info.adavis.ufosightings.util.obtainViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_main.*
@@ -31,6 +33,10 @@ class MainActivity : AppCompatActivity() {
         adapter = SightingsAdapter(emptyList())
         sightings_list.adapter = adapter
 
+        fab.setOnClickListener {
+            viewModel.handleAddSightingClick()
+        }
+
         viewModel = obtainViewModel().also {
             it.getSightings().observe(this, Observer { sightingsState ->
                 sightingsState?.let {
@@ -40,6 +46,10 @@ class MainActivity : AppCompatActivity() {
 
             it.getErrorMessage().observe(this, Observer {
                 displayError(it)
+            })
+
+            it.navigateToAddSighting.observe(this, Observer {
+                startActivity(Intent(this, AddSightingActivity::class.java))
             })
         }
     }
@@ -95,5 +105,5 @@ class MainActivity : AppCompatActivity() {
     }
     //endregion
 
-    fun obtainViewModel(): MainViewModel = obtainViewModel(MainViewModel::class.java)
+    private fun obtainViewModel(): MainViewModel = obtainViewModel(MainViewModel::class.java)
 }

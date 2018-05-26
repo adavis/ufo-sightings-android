@@ -5,12 +5,17 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import info.adavis.ufosightings.SightingsQuery
 import info.adavis.ufosightings.util.SingleLiveEvent
-import info.adavis.ufosightings.util.doEnqueue
+import info.adavis.ufosightings.util.enqueueQuery
 
 class MainViewModel : ViewModel() {
 
     private var sightingsState: MutableLiveData<SightingsState>? = null
     private var errorMessage: SingleLiveEvent<String>? = null
+
+    private val _navigateToAddSighting = SingleLiveEvent<Any>()
+
+    val navigateToAddSighting : LiveData<Any>
+        get() = _navigateToAddSighting
 
     fun getSightings(): LiveData<SightingsState> {
         if (sightingsState == null) {
@@ -22,15 +27,13 @@ class MainViewModel : ViewModel() {
     }
 
     fun getErrorMessage(): SingleLiveEvent<String> {
-        if (errorMessage == null) {
-            errorMessage = SingleLiveEvent()
-        }
+        if (errorMessage == null) errorMessage = SingleLiveEvent()
 
         return errorMessage as SingleLiveEvent<String>
     }
 
     private fun loadSightings() {
-        doEnqueue(
+        enqueueQuery(
                 query = SightingsQuery.builder()
                         .size(30)
                         .build(),
@@ -45,6 +48,10 @@ class MainViewModel : ViewModel() {
                     errorMessage?.postValue(it.message)
                 }
         )
+    }
+
+    fun handleAddSightingClick() {
+        _navigateToAddSighting.call()
     }
 
     override fun onCleared() {
