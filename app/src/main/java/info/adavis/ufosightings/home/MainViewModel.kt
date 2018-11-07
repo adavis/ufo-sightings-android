@@ -1,8 +1,8 @@
 package info.adavis.ufosightings.home
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import info.adavis.ufosightings.SightingsQuery
 import info.adavis.ufosightings.util.SingleLiveEvent
 import info.adavis.ufosightings.util.enqueueQuery
@@ -39,8 +39,8 @@ class MainViewModel : ViewModel() {
                         .build(),
 
                 onResponse = {
-                    it.data()?.let {
-                        sightingsState?.postValue(SightingsState(it.sightings()))
+                    it.data()?.let { data ->
+                        sightingsState?.postValue(SightingsState(data.sightings()))
                     }
                 },
 

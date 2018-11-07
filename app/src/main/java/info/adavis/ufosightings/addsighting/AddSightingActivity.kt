@@ -1,15 +1,15 @@
 package info.adavis.ufosightings.addsighting
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter.createFromResource
-import androidx.core.widget.toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import info.adavis.ufosightings.R
 import info.adavis.ufosightings.home.MainActivity
 import info.adavis.ufosightings.util.obtainViewModel
 import kotlinx.android.synthetic.main.activity_add_sighting.*
+import org.jetbrains.anko.toast
 
 class AddSightingActivity : AppCompatActivity() {
 
@@ -38,12 +38,12 @@ class AddSightingActivity : AppCompatActivity() {
 
         viewModel = obtainViewModel().also {
 
-            it.getErrorMessage().observe(this, Observer {
-                displayMessage(it)
+            it.getErrorMessage().observe(this, Observer { message ->
+                displayMessage(message)
             })
 
-            it.getSuccessMessage().observe(this, Observer {
-                displayMessage(it)
+            it.getSuccessMessage().observe(this, Observer { message ->
+                displayMessage(message)
                 startActivity(Intent(this, MainActivity::class.java))
             })
         }

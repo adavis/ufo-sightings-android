@@ -1,14 +1,13 @@
 package info.adavis.ufosightings.home
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.toast
 import info.adavis.ufosightings.R
 import info.adavis.ufosightings.SightingsQuery
 import info.adavis.ufosightings.addsighting.AddSightingActivity
@@ -16,6 +15,7 @@ import info.adavis.ufosightings.util.obtainViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.sighting_list_item.*
+import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -39,13 +39,13 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = obtainViewModel().also {
             it.getSightings().observe(this, Observer { sightingsState ->
-                sightingsState?.let {
-                    it.data?.let { data -> displaySightings(data) }
+                sightingsState?.let { state ->
+                    state.data?.let { data -> displaySightings(data) }
                 }
             })
 
-            it.getErrorMessage().observe(this, Observer {
-                displayError(it)
+            it.getErrorMessage().observe(this, Observer { message ->
+                displayError(message)
             })
 
             it.navigateToAddSighting.observe(this, Observer {
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     // region adapter
     inner class SightingsAdapter constructor(
             var values: List<SightingsQuery.Sighting>
-    ) : RecyclerView.Adapter<SightingsAdapter.ViewHolder>() {
+    ) : androidx.recyclerview.widget.RecyclerView.Adapter<SightingsAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount(): Int = values.size
 
         // this requires the experimental flag for now, it's in the build.gradle file
-        inner class ViewHolder(override val containerView: View?)
+        inner class ViewHolder(override val containerView: View)
             : RecyclerView.ViewHolder(containerView), LayoutContainer
     }
     //endregion

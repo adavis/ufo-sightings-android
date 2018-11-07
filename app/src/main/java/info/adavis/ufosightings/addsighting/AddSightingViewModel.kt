@@ -1,6 +1,6 @@
 package info.adavis.ufosightings.addsighting
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import info.adavis.ufosightings.CreateSightingMutation
 import info.adavis.ufosightings.type.CreateUFOSightingInput
 import info.adavis.ufosightings.util.SingleLiveEvent
